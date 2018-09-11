@@ -4,7 +4,7 @@
 
 #include "leap.h"
 
-#define N 20000000
+#define N 40000000
 
 void benchmark_is_leap_year() {
     struct timespec start, stop;
