@@ -1,21 +1,29 @@
 #include <stdio.h>
 #include <time.h>
+#include <unistd.h>
 
 #include "leap.h"
 
-void benchmark_is_leap_year() {
-    float startTime = (float)clock() / CLOCKS_PER_SEC;
+#define N 20000000
 
-    int N = 1000000000;
+void benchmark_is_leap_year() {
+    struct timespec start, stop;
+    double accum;
+    if(clock_gettime(CLOCK_REALTIME, &start) == -1 ) {
+        return;
+    }
+
     int i = 0;
     for (i = 0; i < N; i++)
         IS_LEAP_YEAR(i);
 
-    float endTime = (float)clock() / CLOCKS_PER_SEC;
+    if( clock_gettime( CLOCK_REALTIME, &stop) == -1 ) {
+        return;
+    }
 
-    float timeElapsed = endTime - startTime;
+    accum = (stop.tv_sec - start.tv_sec )+ (double)( stop.tv_nsec - start.tv_nsec ) / (double)N;
 
-    printf("Elapsed time: %0.3f sec, iterations: %d\n", timeElapsed, i);
+    printf("Elapsed time: %0.3f nsec, iterations: %d\n", accum, i);
 }
 
 int main() {

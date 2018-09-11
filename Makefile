@@ -8,3 +8,7 @@ $(BINARY):
 .PHONY: bench
 bench: $(BINARY)
 	$(BINARY)
+
+.PHONY: clean
+clean:
+	rm -f $(BINARY)
